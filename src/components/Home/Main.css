@@ -1,0 +1,26 @@
+.main {
+    padding: 1rem;
+}
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+.movie-card {
+    background-color: #333333;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s;
+}
+.movie-card img {
+    width: 100%;
+    height: auto;
+}
+.movie-card:hover {
+    transform: scale(1.05);
+}
+.load-more-trigger {
+    height: 50px;
+    width: 100%;
+}

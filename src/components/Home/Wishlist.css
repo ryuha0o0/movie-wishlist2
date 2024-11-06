@@ -1,0 +1,26 @@
+.wishlist {
+    padding: 1rem;
+}
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+.movie-card {
+    position: relative;
+    background-color: #333333;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+}
+.movie-card button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #f8c414;
+    border: none;
+    padding: 0.5rem;
+    color: #333333;
+    font-weight: bold;
+    cursor: pointer;
+}

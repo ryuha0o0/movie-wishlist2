@@ -1,0 +1,37 @@
+/* Header.css */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1c1c1c; /* 어두운 배경 색상 */
+    padding: 10px 20px;
+}
+
+.header .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #f8c414, #ff5722);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+nav a {
+    font-size: 1rem;
+    color: #d1d1d1;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 20px;
+}
+
+nav a:hover {
+    color: #f8c414; /* 호버 시 색상 변경 */
+}
+
+.icon {
+    font-size: 1.5rem;
+    color: #d1d1d1;
+}

@@ -1,0 +1,70 @@
+.signin-container {
+    perspective: 1000px;
+    width: 320px;
+    height: 380px;
+    margin: 5rem auto;
+    text-align: center;
+    position: relative;
+}
+.signin-card {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.signin-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    padding: 2rem;
+    border-radius: 8px;
+    background-color: #333333;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+}
+
+.signin-container.login-view .signin-card {
+    transform: rotateY(0deg);
+}
+
+.signin-container.register-view .signin-card {
+    transform: rotateY(180deg);
+}
+
+
+.login-content {
+    transform: rotateY(0deg);
+}
+
+.register-content {
+    transform: rotateY(180deg);
+}
+
+.signin-content input {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+    border: none;
+}
+
+.signin-content button {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 1rem 0;
+    background-color: #f8c414;
+    border: none;
+    color: #333333;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.signin-content p {
+    color: #f8c414;
+    cursor: pointer;
+}

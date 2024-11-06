@@ -1,0 +1,44 @@
+/* src/components/Search/Search.css */
+.search {
+    padding: 1rem;
+    text-align: center;
+}
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.search-bar input {
+    padding: 0.5rem;
+    width: 200px;
+    margin-right: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.search-bar button {
+    padding: 0.5rem;
+    background-color: #f8c414;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+.movie-card {
+    background-color: #333333;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s;
+}
+.movie-card img {
+    width: 100%;
+    height: auto;
+}
+.movie-card:hover {
+    transform: scale(1.05);
+}
