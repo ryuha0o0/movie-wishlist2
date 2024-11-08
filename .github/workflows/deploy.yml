@@ -1,32 +1,53 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
-# 워크플로우가 트리거되는 조건
 on:
   push:
-    branches:
-      - master
+    branches: ['step1']
 
-# Job 정의
+  workflow_dispatch:
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
 
     steps:
-      - name: Check out code
+      - name: Use repository source
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: 18
+
+      - name: Cache node_modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true'
 
-      - name: Build project
-        run: npm run build
+      - name: Set PUBLIC_URL
+        run: |
+          PUBLIC_URL=$(echo $GITHUB_REPOSITORY | sed -r 's/^.+\/(.+)$/\/\1\//')
+          echo PUBLIC_URL=$PUBLIC_URL > .env
 
-      - name: Deploy to GitHub Pages
+      - name: Build
+        run: |
+          npm run build
+          cp ./build/index.html ./build/404.html
+
+      - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
