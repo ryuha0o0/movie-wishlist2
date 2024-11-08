@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { fetchMovies } from '../../util/Movie';
 import { isLoggedIn } from '../../util/Auth';
 import './Popular.css';
@@ -7,37 +7,16 @@ function Popular() {
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [showTopButton, setShowTopButton] = useState(false); // Top button visibility
+    const [showTopButton, setShowTopButton] = useState(false); // Top 버튼 표시 여부
 
-    // Popular.js
-    useEffect(() => {
-        loadMovies();
-    }, [loadMovies]); // loadMovies를 의존성 배열에 추가
-
-    useEffect(() => {
-        loadMovies();
-    }, [page]);
-
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowTopButton(window.scrollY > 200); // Show Top button after scrolling 200px
-            if (window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight && !isLoading) {
-                setPage((prevPage) => prevPage + 1);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [isLoading]);
-
-    const loadMovies = async () => {
+    // loadMovies 함수를 useCallback으로 메모이제이션
+    const loadMovies = useCallback(async () => {
         setIsLoading(true);
 
-        // Pass page as a parameter
+        // page를 매개변수로 전달
         const popularMovies = await fetchMovies('/movie/popular', { page });
 
-        // Remove duplicate movies
+        // 중복 영화 제거
         setMovies((prevMovies) => {
             const newMovies = popularMovies.filter(
                 (movie) => !prevMovies.some((prevMovie) => prevMovie.id === movie.id)
@@ -46,7 +25,23 @@ function Popular() {
         });
 
         setIsLoading(false);
-    };
+    }, [page]); // page가 변경될 때마다 loadMovies 함수가 업데이트되도록 의존성 배열에 추가
+
+    useEffect(() => {
+        loadMovies();
+    }, [loadMovies]); // loadMovies를 의존성 배열에 추가
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowTopButton(window.scrollY > 200); // 스크롤 200px 이후 Top 버튼 표시
+            if (window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight && !isLoading) {
+                setPage((prevPage) => prevPage + 1);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [isLoading]);
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
