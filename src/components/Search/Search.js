@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchMovies } from '../../util/Movie';
 import { isLoggedIn } from '../../util/Auth';
 import './Search.css';
@@ -13,8 +13,8 @@ function Search() {
     const [language, setLanguage] = useState('');
     const loaderRef = useRef(null);
 
-
-    const loadMovies = async (page, reset = false) => {
+    // useCallback으로 loadMovies를 메모이제이션
+    const loadMovies = useCallback(async (page, reset = false) => {
         const params = {
             page,
             with_genres: genre,
@@ -32,35 +32,17 @@ function Search() {
         }
 
         setHasMore(movieData.length === 20);
-    };
-
-    // Popular.js
-    useEffect(() => {
-        loadMovies();
-    }, [loadMovies]); // loadMovies를 의존성 배열에 추가
-
-    // loaderRef 관련 수정 (예시 코드)
-    useEffect(() => {
-        const currentLoaderRef = loaderRef.current; // loaderRef.current 값을 변수에 저장
-        // 작업 수행
-
-        return () => {
-            // cleanup 작업에서 currentLoaderRef 사용
-            if (currentLoaderRef) {
-                // cleanup 작업 수행
-            }
-        };
-    }, []);
+    }, [genre, rating, sort, language]);
 
     useEffect(() => {
         setMovies([]);
         setPage(1);
         loadMovies(1, true);
-    }, [genre, rating, sort, language]);
+    }, [loadMovies, genre, rating, sort, language]);
 
     useEffect(() => {
         if (page > 1) loadMovies(page);
-    }, [page]);
+    }, [page, loadMovies]);
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -69,12 +51,13 @@ function Search() {
             }
         }, { threshold: 1.0 });
 
-        if (loaderRef.current) {
-            observer.observe(loaderRef.current);
+        const currentLoader = loaderRef.current;
+        if (currentLoader) {
+            observer.observe(currentLoader);
         }
 
         return () => {
-            if (loaderRef.current) observer.unobserve(loaderRef.current);
+            if (currentLoader) observer.unobserve(currentLoader);
         };
     }, [hasMore]);
 
