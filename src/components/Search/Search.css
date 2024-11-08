@@ -1,44 +1,99 @@
-/* src/components/Search/Search.css */
+/* Search 컴포넌트 스타일 */
 .search {
     padding: 1rem;
-    text-align: center;
 }
-.search-bar {
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* 필터 바 스타일 */
+.filters {
     display: flex;
     justify-content: center;
+    gap: 10px;
     margin-bottom: 1rem;
 }
-.search-bar input {
-    padding: 0.5rem;
-    width: 200px;
-    margin-right: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-.search-bar button {
-    padding: 0.5rem;
-    background-color: #f8c414;
-    border: none;
-    border-radius: 4px;
+
+/* 필터 드롭다운 스타일 */
+.filters select {
+    padding: 0.5rem 1rem;
+    border-radius: 20px; /* 둥근 모서리 */
+    border: 1px solid #007bff; /* 테두리 색상 */
+    background-color: #f8f9fa; /* 기본 배경색 */
+    color: #333; /* 텍스트 색상 */
+    font-size: 1rem;
     cursor: pointer;
-    font-weight: bold;
+    transition: all 0.3s ease; /* 애니메이션 효과 */
+    outline: none;
 }
-.movies-grid {
+
+/* 필터 드롭다운 호버 및 포커스 효과 */
+.filters select:hover,
+.filters select:focus {
+    background-color: #007bff; /* 호버 시 배경색 */
+    color: #ffffff; /* 호버 시 텍스트 색상 */
+    border-color: #0056b3; /* 호버 시 테두리 색상 */
+}
+
+/* 초기화 버튼 스타일 */
+.filters button {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 초기화 버튼 호버 효과 */
+.filters button:hover {
+    background-color: #0056b3;
+}
+
+/* 영화 카드 스타일 */
+.movie-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
+    gap: 15px;
+    padding: 20px;
 }
+
 .movie-card {
-    background-color: #333333;
-    border-radius: 8px;
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s;
-}
-.movie-card img {
     width: 100%;
-    height: auto;
 }
+
+.movie-card img {
+    width: 100%; /* 카드 전체 너비에 맞춤 */
+    height: auto; /* 이미지 비율 유지하며 높이 자동 조정 */
+    object-fit: cover; /* 이미지 잘림 방지 */
+    display: block; /* 공백 제거 */
+}
+
+.movie-card-wrapper {
+    width: 14%;; /* 카드 너비 줄이기 */
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+}
+
+.movie-card h3 {
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
 .movie-card:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 로딩 인디케이터 스타일 */
+.loader {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 1rem;
 }

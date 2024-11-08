@@ -6,21 +6,30 @@
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
 }
-.movie-card {
-    background-color: #333333;
-    border-radius: 8px;
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s;
-}
-.movie-card img {
-    width: 100%;
-    height: auto;
-}
-.movie-card:hover {
-    transform: scale(1.05);
-}
+
 .load-more-trigger {
     height: 50px;
     width: 100%;
+}
+.loading-spinner {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.2rem;
+    color: #666;
+}
+.top-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.top-button:hover {
+    background-color: #0056b3;
 }

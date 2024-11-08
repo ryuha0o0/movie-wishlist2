@@ -1,0 +1,33 @@
+.wishlist {
+    padding: 1rem;
+}
+.movie-card {
+    width: 100%;
+}
+
+.movie-card img {
+    width: 100%; /* 카드 전체 너비에 맞춤 */
+    height: auto; /* 이미지 비율 유지하며 높이 자동 조정 */
+    object-fit: cover; /* 이미지 잘림 방지 */
+    display: block; /* 공백 제거 */
+}
+
+
+.movie-card h3 {
+    margin: 0.5rem 0; /* 제목과 버튼 사이 간격 */
+}
+
+.movie-card button {
+    position: absolute;
+    bottom: 0.5rem; /* 카드 하단에 배치 */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #007bff;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}

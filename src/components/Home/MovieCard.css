@@ -1,0 +1,16 @@
+.movie-card {
+    width: 100%;
+}
+
+.movie-card img {
+    width: 100%; /* 카드 전체 너비에 맞춤 */
+    height: auto; /* 이미지 비율 유지하며 높이 자동 조정 */
+    object-fit: cover; /* 이미지 잘림 방지 */
+    display: block; /* 공백 제거 */
+}
+
+.movie-card-wrapper {
+    width: 14%;; /* 카드 너비 줄이기 */
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+}

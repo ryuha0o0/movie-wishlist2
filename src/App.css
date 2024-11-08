@@ -1,11 +1,66 @@
+/* src/App.css */
+
+/* 공통 스타일 */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #333333;
-  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: var(--background-color); /* 공통 배경색 */
+  color: var(--text-color); /* 공통 텍스트 색상 */
 }
-h2 {
-  color: #f8c414;
-  text-align: center;
+
+/* 라이트모드 */
+body.light-mode {
+  --background-color: #f0f4f8;
+  --text-color: #333333;
+  --primary-color: #007bff;
+}
+
+/* 다크모드 */
+body.dark-mode {
+  --background-color: #333333;
+  --text-color: #f0f4f8;
+  --primary-color: #1e90ff;
+}
+
+.App {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.header {
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.header .logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff; /* 항상 흰색으로 유지 */
+  text-decoration: none;
+}
+
+nav a {
+  font-size: 1rem;
+  color: #ffffff; /* 항상 흰색으로 유지 */
+  text-decoration: none;
+  margin-right: 20px;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #f0f4f8; /* 다크 모드에서도 가독성을 위한 밝은 색상 */
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #ffffff; /* 항상 흰색으로 유지 */
 }
