@@ -56,7 +56,7 @@ const MainPage = () => {
         <div>
             {bannerMovie && <Banner movie={bannerMovie} />}
             <MovieRow title="액션 영화" movies={actionMovies} onDoubleClick={handleDoubleClick} />
-            <MovieRow title="코미디 영화" movies={comedyMovies} onDoubleClick={handleDoubleClick} />
+            <MovieRow title="코미디" movies={comedyMovies} onDoubleClick={handleDoubleClick} />
             <MovieRow title="드라마 영화" movies={dramaMovies} onDoubleClick={handleDoubleClick} />
         </div>
     );
