@@ -28,6 +28,7 @@ function App() {
         <Router>
             <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
             <Routes>
+                <Route path="/movie-wishlist2/" element={<Main/>}/>
                 <Route path="/" element={<Main />} />
                 <Route path="/popular" element={<Popular />} />
                 <Route path="/search" element={<Search />} />
