@@ -16,7 +16,7 @@
     "react-transition-group": "^4.4.5",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4",
-    "homepage": "https://github.com/ryuha0o0/react-ha0o0.git"
+    "homepage": "https://github.com/ryuha0o0/movie-wishlist"
   },
   "scripts": {
     "start": "react-scripts start",
