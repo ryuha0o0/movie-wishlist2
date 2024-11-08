@@ -13,6 +13,7 @@ function Search() {
     const [language, setLanguage] = useState('');
     const loaderRef = useRef(null);
 
+
     const loadMovies = async (page, reset = false) => {
         const params = {
             page,
@@ -32,6 +33,24 @@ function Search() {
 
         setHasMore(movieData.length === 20);
     };
+
+    // Popular.js
+    useEffect(() => {
+        loadMovies();
+    }, [loadMovies]); // loadMovies를 의존성 배열에 추가
+
+    // loaderRef 관련 수정 (예시 코드)
+    useEffect(() => {
+        const currentLoaderRef = loaderRef.current; // loaderRef.current 값을 변수에 저장
+        // 작업 수행
+
+        return () => {
+            // cleanup 작업에서 currentLoaderRef 사용
+            if (currentLoaderRef) {
+                // cleanup 작업 수행
+            }
+        };
+    }, []);
 
     useEffect(() => {
         setMovies([]);

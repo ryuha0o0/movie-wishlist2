@@ -9,9 +9,15 @@ function Popular() {
     const [isLoading, setIsLoading] = useState(false);
     const [showTopButton, setShowTopButton] = useState(false); // Top button visibility
 
+    // Popular.js
+    useEffect(() => {
+        loadMovies();
+    }, [loadMovies]); // loadMovies를 의존성 배열에 추가
+
     useEffect(() => {
         loadMovies();
     }, [page]);
+
 
     useEffect(() => {
         const handleScroll = () => {
