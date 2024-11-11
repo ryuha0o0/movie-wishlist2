@@ -1,78 +1,60 @@
-/* src/layout/Header.css */
-
+/* Header 기본 스타일 */
 .header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 15px 30px;
-    border-bottom: 2px solid #e0e0e0; /* 연한 회색 테두리 */
-    background-color: #ffffff; /* 흰색 배경 */
-}
-
-.header .logo {
-    font-size: 2rem; /* 로고 크기 약간 키움 */
-    font-weight: 600; /* 로고 텍스트 굵게 */
-    color: #333333; /* 어두운 텍스트 */
-    text-decoration: none;
-    font-family: 'Poppins', sans-serif;
-    transition: color 0.3s ease-in-out;
-}
-
-.header .logo:hover {
-    color: #000000; /* 호버 시 검정색으로 변경 */
-}
-
-nav {
-    display: flex;
     align-items: center;
+    padding: 1rem;
+    background-color: #333;
+    color: #fff;
 }
 
-nav a {
-    font-size: 1.1rem; /* 메뉴 글씨 크기 조금 키움 */
-    color: #333333; /* 어두운 텍스트 */
+.logo {
+    font-size: 1.5rem;
     text-decoration: none;
-    font-weight: 500;
-    margin-right: 25px; /* 간격 조정 */
-    transition: color 0.3s ease-in-out;
+    color: inherit;
 }
 
-nav a:hover {
-    color: #000000; /* 호버 시 검정색으로 변경 */
+/* 내비게이션 링크 기본 스타일 */
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    transition: all 0.3s ease;
 }
 
-/* 아이콘 스타일 */
-.icon {
-    font-size: 1.6rem; /* 아이콘 크기 조금 키움 */
-    color: #333333; /* 어두운 텍스트 */
-    font-style: normal; /* 기울어짐 방지 */
-    transform: none;    /* transform 초기화 */
-    transition: color 0.3s ease-in-out;
+.nav-links a, .theme-toggle {
+    color: #fff;
+    text-decoration: none;
 }
 
-.icon:hover {
-    color: #000000; /* 호버 시 검정색으로 변경 */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
 }
 
-/* 다크모드 스타일 */
-[data-theme="dark"] .header {
-    background-color: #333333; /* 다크모드 배경 */
-    border-bottom: 2px solid #444444; /* 어두운 회색 테두리 */
-}
+/* 모바일 반응형 스타일 */
+@media (max-width: 768px) {
+    .nav-links {
+        position: absolute;
+        top: 4rem;
+        right: 1rem;
+        background-color: #333;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 5px;
+        display: none;  /* 기본적으로 숨김 */
+    }
 
-[data-theme="dark"] .logo {
-    color: #e0e0e0; /* 다크모드에서 밝은 로고 */
-}
+    /* 드롭다운 메뉴가 열릴 때 */
+    .nav-links.open {
+        display: flex;  /* 드롭다운 메뉴 보이기 */
+    }
 
-[data-theme="dark"] nav a {
-    color: #e0e0e0; /* 다크모드에서 밝은 메뉴 */
-}
-
-[data-theme="dark"] .icon {
-    color: #e0e0e0; /* 다크모드에서 밝은 아이콘 */
-}
-
-/* 다크모드 호버 효과 */
-[data-theme="dark"] nav a:hover,
-[data-theme="dark"] .icon:hover {
-    color: #ffffff; /* 다크모드에서 호버 시 흰색으로 변경 */
+    .menu-toggle {
+        display: block;
+    }
 }

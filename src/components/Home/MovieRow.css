@@ -1,4 +1,4 @@
-/* MovieRow.css */
+/* 기본 스타일 */
 .movie-row {
     margin: 20px 0;
 }
@@ -29,9 +29,8 @@
     display: none; /* Chrome, Safari에서 스크롤 바 숨기기 */
 }
 
-
 .movie-card-wrapper {
-    width: 14%;; /* 카드 너비 줄이기 */
+    width: 14%;
     scroll-snap-align: start;
     flex: 0 0 auto;
 }
@@ -52,4 +51,35 @@
 
 .arrow-button:hover {
     background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 1024px) {
+    .movie-card-wrapper {
+        width: 20%;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-card-wrapper {
+        width: 25%;
+    }
+}
+
+@media (max-width: 600px) {
+    .movie-card-wrapper {
+        width: 33.33%;
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-card-wrapper {
+        width: 50%;
+    }
+}
+
+@media (max-width: 320px) {
+    .movie-card-wrapper {
+        width: 100%;
+    }
 }
