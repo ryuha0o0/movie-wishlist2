@@ -26,6 +26,7 @@ const MainPage = ({ apiKey }) => {
             setIsLoading(true);
             const movies = await fetchMovies('/discover/movie', apiKey, {
                 with_genres: genreId,
+                language: 'ko-KR', // 영화 데이터를 한국어로 설정
                 page,
             });
             setMovies((prevMovies) => [

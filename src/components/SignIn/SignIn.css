@@ -8,34 +8,71 @@
     background: linear-gradient(135deg, #333333, #666666);
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.5s ease-in-out;
+}
+
+.signin-container:hover {
+    transform: scale(1.05) rotateY(5deg); /* 카드 전체에 살짝 확대 및 회전 */
 }
 
 .signin-content {
     background: rgba(255, 255, 255, 0.9);
     color: #333333;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.signin-content:hover {
+    transform: translateY(-5px); /* 콘텐츠 살짝 들어올림 */
 }
 
 .signin-content input {
+    width: 80%;
+    margin: 10px 0;
+    padding: 10px;
     border: 1px solid #666666;
+    border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease; /* 포커스 시 애니메이션 추가 */
 }
 
 .signin-content input:focus {
     border-color: #333333;
     box-shadow: 0 0 8px rgba(51, 51, 51, 0.5);
+    transform: scale(1.05); /* 포커스 시 확대 */
 }
 
 .signin-content button {
+    width: 85%;
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
     background: linear-gradient(45deg, #333333, #666666);
     color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
     box-shadow: 0 4px 15px rgba(51, 51, 51, 0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease; /* 버튼 전환 애니메이션 */
 }
 
-.signin-content p {
-    color: #333333;
+.signin-content button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #555555, #888888);
 }
+
+
 
 .signin-content p:hover {
     color: #666666;
+}
+
+.message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ff4d4d;
+    transition: opacity 0.3s ease; /* 메시지가 나타날 때 애니메이션 */
 }

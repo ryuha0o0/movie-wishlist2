@@ -14,7 +14,10 @@ function Popular({ apiKey }) {  // API 키를 props로 받음
         setIsLoading(true);
 
         // page와 apiKey를 매개변수로 전달
-        const popularMovies = await fetchMovies('/movie/popular', apiKey, { page });
+        const popularMovies = await fetchMovies('/movie/popular', apiKey, {
+            page,
+            language: 'ko-KR' // 영화 데이터를 한국어로 설정
+        });
 
         // 중복 영화 제거
         setMovies((prevMovies) => {
