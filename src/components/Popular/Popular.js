@@ -3,7 +3,7 @@ import { fetchMovies } from '../../util/Movie';
 import { isLoggedIn } from '../../util/Auth';
 import './Popular.css';
 
-function Popular() {
+function Popular({ apiKey }) {  // API 키를 props로 받음
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
@@ -13,8 +13,8 @@ function Popular() {
     const loadMovies = useCallback(async () => {
         setIsLoading(true);
 
-        // page를 매개변수로 전달
-        const popularMovies = await fetchMovies('/movie/popular', { page });
+        // page와 apiKey를 매개변수로 전달
+        const popularMovies = await fetchMovies('/movie/popular', apiKey, { page });
 
         // 중복 영화 제거
         setMovies((prevMovies) => {
@@ -25,7 +25,7 @@ function Popular() {
         });
 
         setIsLoading(false);
-    }, [page]); // page가 변경될 때마다 loadMovies 함수가 업데이트되도록 의존성 배열에 추가
+    }, [page, apiKey]); // page와 apiKey가 변경될 때마다 loadMovies 함수가 업데이트되도록 의존성 배열에 추가
 
     useEffect(() => {
         loadMovies();

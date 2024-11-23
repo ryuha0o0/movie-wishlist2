@@ -3,7 +3,7 @@ import { fetchMovies } from '../../util/Movie';
 import { isLoggedIn } from '../../util/Auth';
 import './Search.css';
 
-function Search() {
+function Search({ apiKey }) {  // API 키를 props로 받음
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
@@ -23,7 +23,8 @@ function Search() {
             language,
         };
 
-        const movieData = await fetchMovies('/discover/movie', params);
+        // API 키를 함께 전달
+        const movieData = await fetchMovies('/discover/movie', apiKey, params);
 
         if (reset) {
             setMovies(movieData);
@@ -32,7 +33,7 @@ function Search() {
         }
 
         setHasMore(movieData.length === 20);
-    }, [genre, rating, sort, language]);
+    }, [genre, rating, sort, language, apiKey]);
 
     useEffect(() => {
         setMovies([]);

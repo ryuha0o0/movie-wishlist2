@@ -10,6 +10,7 @@ import './theme.css';
 
 function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [apiKey, setApiKey] = useState(''); // API 키를 상태로 관리
 
     useEffect(() => {
         const currentTheme = localStorage.getItem('theme') || 'light';
@@ -28,12 +29,15 @@ function App() {
         <Router>
             <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
             <Routes>
-                <Route path="/movie-wishlist2/" element={<Main/>}/>
-                <Route path="/" element={<Main />} />
-                <Route path="/popular" element={<Popular />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/wishlist" element={<Wishlist />} />
-                <Route path="/signin" element={<SignIn />} />
+                <Route path="/movie-wishlist2/" element={<Main apiKey={apiKey}/>} />
+                <Route path="/" element={<Main apiKey={apiKey}/>} />
+                <Route path="/popular" element={<Popular apiKey={apiKey} />} />
+                <Route path="/search" element={<Search apiKey={apiKey} />} />
+                <Route path="/wishlist" element={<Wishlist apiKey={apiKey}/>} />
+                <Route
+                    path="/signin"
+                    element={<SignIn setApiKey={setApiKey} />}  // SignIn에서 API_KEY를 받아옴
+                />
             </Routes>
         </Router>
     );

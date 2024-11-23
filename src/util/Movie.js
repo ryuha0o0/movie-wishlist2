@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-const API_KEY = '11d7a828c0817b7c21bbb371349d3447';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-export const fetchMovies = async (endpoint, params = {}) => {
+export const fetchMovies = async (endpoint, apiKey, params = {}) => {
     try {
         const response = await axios.get(`${BASE_URL}${endpoint}`, {
             params: {
-                api_key: API_KEY,
+                api_key: apiKey,  // API_KEY를 여기서 직접 받아옵니다.
                 ...params,
             },
         });
