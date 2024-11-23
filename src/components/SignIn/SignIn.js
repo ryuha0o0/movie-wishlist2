@@ -25,7 +25,6 @@ function SignIn({ setApiKey }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [message, setMessage] = useState('');
     const [transitionState, setTransitionState] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const [termsAccepted, setTermsAccepted] = useState(false);
