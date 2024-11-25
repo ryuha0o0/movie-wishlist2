@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Banner from '../components/Home/Banner';
 import MovieRow from '../components/Home/MovieRow';
 import { fetchMovies } from '../util/Movie';
-import { isLoggedIn } from '../util/Auth';
 
 const MainPage = ({ apiKey }) => {
     const [bannerMovie, setBannerMovie] = useState(null);
@@ -11,6 +10,8 @@ const MainPage = ({ apiKey }) => {
     const [dramaMovies, setDramaMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
+    const [wishlist, setWishlist] = useState([]); // 위시리스트 상태 추가
+
 
     const loadBannerMovie = useCallback(async () => {
         const response = await fetchMovies('/search/movie', apiKey, {
@@ -48,6 +49,15 @@ const MainPage = ({ apiKey }) => {
     }, [loadBannerMovie, loadMoviesByGenre]);
 
     useEffect(() => {
+        const currentUser = JSON.parse(localStorage.getItem('isLoggedInUser'));
+        if (currentUser) {
+            const wishlistKey = `wishlist_${currentUser}`;
+            const savedWishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+            setWishlist(savedWishlist); // 초기화
+        }
+    }, []);
+
+    useEffect(() => {
         const handleScroll = () => {
             if (
                 window.innerHeight + document.documentElement.scrollTop + 1 >=
@@ -62,33 +72,31 @@ const MainPage = ({ apiKey }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [isLoading]);
 
-    const handleDoubleClick = (movie) => {
-        if (!isLoggedIn()) {
-            alert("로그인이 필요합니다.");
-            return;
-        }
-
-        // 현재 로그인된 사용자 가져오기
-        const currentUser = JSON.parse(localStorage.getItem('isLoggedInUser')); // 이메일 저장
+    // 위시리스트 토글 함수
+    const toggleWishlist = (movie) => {
+        const currentUser = JSON.parse(localStorage.getItem('isLoggedInUser'));
         if (!currentUser) {
-            alert("사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+            alert('로그인이 필요합니다.');
             return;
         }
 
-        // 사용자별 위시리스트 가져오기
-        const wishlistKey = `wishlist_${currentUser}`; // 사용자별로 구분되는 키 생성
-        const wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || []; // 사용자별 위시리스트 로드
+        const wishlistKey = `wishlist_${currentUser}`;
+        const updatedWishlist = [...wishlist];
+        const movieIndex = updatedWishlist.findIndex((item) => item.id === movie.id);
 
-        // 중복 확인 후 추가
-        const movieExists = wishlist.find((item) => item.id === movie.id);
-        if (!movieExists) {
-            wishlist.push(movie);
-            localStorage.setItem(wishlistKey, JSON.stringify(wishlist)); // 사용자별로 저장
-            alert(`${movie.title}이(가) 위시리스트에 추가되었습니다.`);
+        if (movieIndex > -1) {
+            // 위시리스트에서 제거
+            updatedWishlist.splice(movieIndex, 1);
         } else {
-            alert("이미 위시리스트에 추가된 영화입니다.");
+            // 위시리스트에 추가
+            updatedWishlist.push(movie);
         }
+
+        localStorage.setItem(wishlistKey, JSON.stringify(updatedWishlist)); // 로컬 스토리지에 저장
+        setWishlist(updatedWishlist); // 상태 업데이트
     };
+
+
 
     return (
         <div className="main-page">
@@ -96,17 +104,20 @@ const MainPage = ({ apiKey }) => {
             <MovieRow
                 title="액션 영화"
                 movies={actionMovies}
-                onDoubleClick={handleDoubleClick}
+                wishlist={wishlist}
+                toggleWishlist={toggleWishlist}
             />
             <MovieRow
                 title="코미디 영화"
                 movies={comedyMovies}
-                onDoubleClick={handleDoubleClick}
+                wishlist={wishlist}
+                toggleWishlist={toggleWishlist}
             />
             <MovieRow
                 title="드라마 영화"
                 movies={dramaMovies}
-                onDoubleClick={handleDoubleClick}
+                wishlist={wishlist}
+                toggleWishlist={toggleWishlist}
             />
             {isLoading && <p className="loading">Loading...</p>}
         </div>

@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import MovieCard from './MovieCard';
 import './MovieRow.css';
 
-const MovieRow = ({ title, movies, onDoubleClick }) => {
+const MovieRow = ({ title, movies, wishlist = [], toggleWishlist, onDoubleClick }) => {
     const scrollRef = useRef(null);
 
     const scrollLeft = () => {
@@ -17,10 +17,9 @@ const MovieRow = ({ title, movies, onDoubleClick }) => {
         }
     };
 
-    // 마우스 휠로 가로 스크롤 제어
     const handleWheel = (event) => {
         if (scrollRef.current) {
-            event.preventDefault(); // 기본 세로 스크롤 방지
+            event.preventDefault();
             scrollRef.current.scrollBy({
                 left: event.deltaY < 0 ? -100 : 100,
                 behavior: 'smooth',
@@ -36,11 +35,16 @@ const MovieRow = ({ title, movies, onDoubleClick }) => {
                 <div
                     className="scroll-container"
                     ref={scrollRef}
-                    onWheel={handleWheel} // 마우스 휠 이벤트 추가
+                    onWheel={handleWheel}
                 >
                     {movies.map((movie) => (
-                        <div key={movie.id} className="movie-card-wrapper" onDoubleClick={() => onDoubleClick(movie)}>
-                            <MovieCard movie={movie} />
+                        <div key={movie.id} className="movie-card-wrapper" >
+                            <MovieCard
+                                key={movie.id}
+                                movie={movie}
+                                isInWishlist={wishlist.some((item) => item.id === movie.id)} // 위시리스트 여부 판단
+                                toggleWishlist={toggleWishlist}
+                            />
                         </div>
                     ))}
                 </div>

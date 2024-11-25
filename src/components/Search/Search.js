@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchMovies } from '../../util/Movie';
-import { isLoggedIn } from '../../util/Auth';
 import './Search.css';
+import MovieCard from "../Home/MovieCard";
+
 
 function Search({ apiKey }) {
     const [movies, setMovies] = useState([]);
@@ -13,6 +14,8 @@ function Search({ apiKey }) {
     const [language, setLanguage] = useState('ko');
     const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태 추가
     const loaderRef = useRef(null);
+    const [wishlist, setWishlist] = useState([]);
+
 
     const loadMovies = useCallback(async (page, reset = false) => {
         const params = {
@@ -38,6 +41,15 @@ function Search({ apiKey }) {
 
         setHasMore(movieData.length === 20);
     }, [genre, rating, sort, language, searchQuery, apiKey]);
+
+    useEffect(() => {
+        const currentUser = JSON.parse(localStorage.getItem('isLoggedInUser'));
+        if (currentUser) {
+            const wishlistKey = `wishlist_${currentUser}`;
+            const savedWishlist = JSON.parse(localStorage.getItem(wishlistKey)) || [];
+            setWishlist(savedWishlist);
+        }
+    }, []);
 
     useEffect(() => {
         const resetAndLoad = async () => {
@@ -71,33 +83,27 @@ function Search({ apiKey }) {
         };
     }, [hasMore]);
 
-    const handleDoubleClick = (movie) => {
-        if (!isLoggedIn()) {
-            alert("로그인이 필요합니다.");
-            return;
-        }
-
-        // 현재 로그인된 사용자 가져오기
-        const currentUser = JSON.parse(localStorage.getItem('isLoggedInUser')); // 이메일 저장
+    const toggleWishlist = (movie) => {
+        const currentUser = JSON.parse(localStorage.getItem('isLoggedInUser'));
         if (!currentUser) {
-            alert("사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+            alert('로그인이 필요합니다.');
             return;
         }
 
-        // 사용자별 위시리스트 가져오기
-        const wishlistKey = `wishlist_${currentUser}`; // 사용자별로 구분되는 키 생성
-        const wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || []; // 사용자별 위시리스트 로드
+        const wishlistKey = `wishlist_${currentUser}`;
+        const updatedWishlist = [...wishlist];
+        const movieIndex = updatedWishlist.findIndex((item) => item.id === movie.id);
 
-        // 중복 확인 후 추가
-        const movieExists = wishlist.find((item) => item.id === movie.id);
-        if (!movieExists) {
-            wishlist.push(movie);
-            localStorage.setItem(wishlistKey, JSON.stringify(wishlist)); // 사용자별로 저장
-            alert(`${movie.title}이(가) 위시리스트에 추가되었습니다.`);
+        if (movieIndex > -1) {
+            updatedWishlist.splice(movieIndex, 1);
         } else {
-            alert("이미 위시리스트에 추가된 영화입니다.");
+            updatedWishlist.push(movie);
         }
+
+        localStorage.setItem(wishlistKey, JSON.stringify(updatedWishlist));
+        setWishlist(updatedWishlist);
     };
+
 
     return (
         <div className="search">
@@ -168,10 +174,12 @@ function Search({ apiKey }) {
 
             <div className="movie-grid">
                 {movies.map((movie) => (
-                    <div key={movie.id} className="movie-card" onDoubleClick={() => handleDoubleClick(movie)}>
-                        <img
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt={movie.title}
+                    <div key={movie.id} className="movie-card">
+                        <MovieCard
+                            key={movie.id}
+                            movie={movie}
+                            isInWishlist={wishlist.some((item) => item.id === movie.id)} // 위시리스트 여부 판단
+                            toggleWishlist={toggleWishlist}
                         />
                     </div>
                 ))}
