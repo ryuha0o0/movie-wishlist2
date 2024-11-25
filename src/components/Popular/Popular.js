@@ -55,16 +55,29 @@ function Popular({ apiKey }) {  // API 키를 props로 받음
             alert("로그인이 필요합니다.");
             return;
         }
-        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+        // 현재 로그인된 사용자 가져오기
+        const currentUser = JSON.parse(localStorage.getItem('isLoggedInUser')); // 이메일 저장
+        if (!currentUser) {
+            alert("사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+            return;
+        }
+
+        // 사용자별 위시리스트 가져오기
+        const wishlistKey = `wishlist_${currentUser}`; // 사용자별로 구분되는 키 생성
+        const wishlist = JSON.parse(localStorage.getItem(wishlistKey)) || []; // 사용자별 위시리스트 로드
+
+        // 중복 확인 후 추가
         const movieExists = wishlist.find((item) => item.id === movie.id);
         if (!movieExists) {
             wishlist.push(movie);
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            localStorage.setItem(wishlistKey, JSON.stringify(wishlist)); // 사용자별로 저장
             alert(`${movie.title}이(가) 위시리스트에 추가되었습니다.`);
         } else {
             alert("이미 위시리스트에 추가된 영화입니다.");
         }
     };
+
 
     return (
         <div className="popular">
