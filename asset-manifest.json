@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/movie-wishlist2/static/css/main.5403e8ed.css",
-    "main.js": "/movie-wishlist2/static/js/main.1064fbc3.js",
+    "main.css": "/movie-wishlist2/static/css/main.22d3e2dc.css",
+    "main.js": "/movie-wishlist2/static/js/main.2e15d158.js",
     "static/js/453.e9ea9c8a.chunk.js": "/movie-wishlist2/static/js/453.e9ea9c8a.chunk.js",
     "static/media/slick.svg": "/movie-wishlist2/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/movie-wishlist2/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/movie-wishlist2/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/movie-wishlist2/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/movie-wishlist2/index.html",
-    "main.5403e8ed.css.map": "/movie-wishlist2/static/css/main.5403e8ed.css.map",
-    "main.1064fbc3.js.map": "/movie-wishlist2/static/js/main.1064fbc3.js.map",
+    "main.22d3e2dc.css.map": "/movie-wishlist2/static/css/main.22d3e2dc.css.map",
+    "main.2e15d158.js.map": "/movie-wishlist2/static/js/main.2e15d158.js.map",
     "453.e9ea9c8a.chunk.js.map": "/movie-wishlist2/static/js/453.e9ea9c8a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5403e8ed.css",
-    "static/js/main.1064fbc3.js"
+    "static/css/main.22d3e2dc.css",
+    "static/js/main.2e15d158.js"
   ]
 }
