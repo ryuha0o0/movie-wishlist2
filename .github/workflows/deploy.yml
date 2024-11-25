@@ -3,12 +3,12 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - master
       - develop
 
   pull_request:
     branches:
-      - main
+      - master
       - develop
 
   workflow_dispatch:
@@ -88,3 +88,19 @@ jobs:
       # 4. 테스트 실행
       - name: Run Tests
         run: npm test
+
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Slack 알림
+      - name: Notify Slack
+        uses: rtCamp/action-slack-notify@v2
+        with:
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          message: |
+            🚀 Deployment Workflow:
+            - Branch: ${{ github.ref_name }}
+            - Commit: ${{ github.sha }}
+            - Status: Success
+          color: good
