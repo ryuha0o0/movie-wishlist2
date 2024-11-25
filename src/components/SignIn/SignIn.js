@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // React Router의 useNavigate 사용
 import { tryLogin, tryRegister } from '../../util/Auth'; // 로그인/회원가입 함수
 import {
@@ -8,69 +8,101 @@ import {
     Typography,
     TextField,
     Button,
+    Checkbox,
     colors,
 } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './SignIn.css';
 
-// 전환 모드 Enum
 const ScreenMode = {
     SIGN_IN: 'SIGN_IN',
     SIGN_UP: 'SIGN_UP',
 };
 
 function SignIn({ setApiKey }) {
-    const [currMode, setCurrMode] = useState(ScreenMode.SIGN_IN); // 로그인 또는 회원가입 모드
+    const [currMode, setCurrMode] = useState(ScreenMode.SIGN_IN);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState(''); // 사용자 메시지
-    const [transitionState, setTransitionState] = useState(false); // 전환 애니메이션
-    const navigate = useNavigate(); // 리다이렉트 처리
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [transitionState, setTransitionState] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const savedEmail = localStorage.getItem('rememberedEmail');
+        if (savedEmail) setEmail(savedEmail);
+    }, []);
 
     const handleLogin = () => {
-        console.log('로그인 시도:', email);
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            toast.error('올바른 이메일 형식이 아닙니다.');
+            return;
+        }
+
         try {
-            const user = tryLogin(email, password); // tryLogin 함수 호출
+            const user = tryLogin(email, password);
             if (user) {
-                const apiKey = password; // 비밀번호를 API Key로 사용 (예시)
-                setApiKey(apiKey); // 부모 컴포넌트에 API Key 전달
-                setMessage('로그인 성공!');
-                setTimeout(() => navigate('/'), 1000); // 1초 후 홈 화면으로 이동
+                const apiKey = password; // 예시: 비밀번호를 API 키로 사용
+                setApiKey(apiKey);
+                toast.success('로그인 성공!');
+                if (rememberMe) {
+                    localStorage.setItem('rememberedEmail', email);
+                } else {
+                    localStorage.removeItem('rememberedEmail');
+                }
+                setTimeout(() => navigate('/'), 1000);
             } else {
-                setMessage('로그인 실패: 이메일 또는 비밀번호를 확인하세요.');
+                toast.error('로그인 실패: 이메일 또는 비밀번호를 확인하세요.');
             }
         } catch (error) {
             console.error('로그인 오류:', error);
-            setMessage('로그인 실패: 오류가 발생했습니다.');
+            toast.error('로그인 실패: 오류가 발생했습니다.');
         }
     };
 
     const handleRegister = () => {
-        console.log('회원가입 시도:', email);
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            toast.error('올바른 이메일 형식이 아닙니다.');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            toast.error('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        if (!termsAccepted) {
+            toast.error('약관에 동의해야 회원가입이 가능합니다.');
+            return;
+        }
+
         try {
-            const success = tryRegister(email, password); // tryRegister 함수 호출
+            const success = tryRegister(email, password);
             if (success) {
-                setMessage('회원가입 성공! 로그인 화면으로 이동합니다.');
-                setTimeout(() => setCurrMode(ScreenMode.SIGN_IN), 1000); // 1초 후 로그인 화면으로 전환
+                toast.success('회원가입 성공! 로그인 화면으로 이동합니다.');
+                setTimeout(() => setCurrMode(ScreenMode.SIGN_IN), 1000);
             } else {
-                setMessage('회원가입 실패: 이미 존재하는 이메일입니다.');
+                toast.error('회원가입 실패: 이미 존재하는 이메일입니다.');
             }
         } catch (error) {
             console.error('회원가입 오류:', error);
-            setMessage('회원가입 실패: 오류가 발생했습니다.');
+            toast.error('회원가입 실패: 오류가 발생했습니다.');
         }
     };
 
     const handleSwitchMode = (mode) => {
-        setTransitionState(true); // 전환 애니메이션 활성화
+        setTransitionState(true);
         setTimeout(() => {
             setCurrMode(mode);
-            setTransitionState(false); // 전환 후 애니메이션 비활성화
+            setTransitionState(false);
         }, 500);
     };
 
     return (
         <Grid container sx={{ height: '100vh' }}>
-            {/* 왼쪽 로그인/회원가입 창 */}
+            {/* 로그인/회원가입 폼 */}
             <Grid
                 item
                 xs={4}
@@ -95,6 +127,12 @@ function SignIn({ setApiKey }) {
                                 fullWidth
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                error={!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email !== ''}
+                                helperText={
+                                    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email !== ''
+                                        ? '올바른 이메일 형식이 아닙니다.'
+                                        : ''
+                                }
                             />
                             <TextField
                                 label="Password"
@@ -104,11 +142,13 @@ function SignIn({ setApiKey }) {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </Stack>
-                        {message && (
-                            <Typography color="error" sx={{ textAlign: 'center' }}>
-                                {message}
-                            </Typography>
-                        )}
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <Checkbox
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            <Typography>Remember Me</Typography>
+                        </Stack>
                         <Button
                             variant="contained"
                             size="large"
@@ -146,6 +186,12 @@ function SignIn({ setApiKey }) {
                                 fullWidth
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                error={!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email !== ''}
+                                helperText={
+                                    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email !== ''
+                                        ? '올바른 이메일 형식이 아닙니다.'
+                                        : ''
+                                }
                             />
                             <TextField
                                 label="Password"
@@ -154,12 +200,27 @@ function SignIn({ setApiKey }) {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            <TextField
+                                label="Confirm Password"
+                                type="password"
+                                fullWidth
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                error={password !== confirmPassword && confirmPassword !== ''}
+                                helperText={
+                                    password !== confirmPassword && confirmPassword !== ''
+                                        ? '비밀번호가 일치하지 않습니다.'
+                                        : ''
+                                }
+                            />
                         </Stack>
-                        {message && (
-                            <Typography color="error" sx={{ textAlign: 'center' }}>
-                                {message}
-                            </Typography>
-                        )}
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <Checkbox
+                                checked={termsAccepted}
+                                onChange={(e) => setTermsAccepted(e.target.checked)}
+                            />
+                            <Typography>약관에 동의합니다.</Typography>
+                        </Stack>
                         <Button
                             variant="contained"
                             size="large"
@@ -200,7 +261,6 @@ function SignIn({ setApiKey }) {
                     }}
                 />
             </Grid>
-
             {/* 오른쪽 이미지 영역 */}
             <Grid
                 item
@@ -229,6 +289,7 @@ function SignIn({ setApiKey }) {
                     }}
                 />
             </Grid>
+            <ToastContainer />
         </Grid>
     );
 }
