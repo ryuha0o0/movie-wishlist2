@@ -2,7 +2,14 @@ name: Deploy
 
 on:
   push:
-    branches: ['master']
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+      - develop
 
   workflow_dispatch:
 
@@ -16,14 +23,17 @@ jobs:
       cancel-in-progress: true
 
     steps:
+      # 1. 코드 체크아웃
       - name: Use repository source
         uses: actions/checkout@v3
 
+      # 2. Node.js 설정
       - name: Use node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # 3. Node_modules 캐싱
       - name: Cache node_modules
         id: cache
         uses: actions/cache@v3
@@ -33,22 +43,48 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # 4. 의존성 설치
       - name: Install dependencies
         run: npm ci
         if: steps.cache.outputs.cache-hit != 'true'
 
+      # 5. PUBLIC_URL 설정
       - name: Set PUBLIC_URL
         run: |
           PUBLIC_URL=$(echo $GITHUB_REPOSITORY | sed -r 's/^.+\/(.+)$/\/\1\//')
           echo PUBLIC_URL=$PUBLIC_URL > .env
 
+      # 6. 빌드 수행
       - name: Build
         run: |
           npm run build
           cp ./build/index.html ./build/404.html
 
+      # 7. gh-pages 브랜치로 배포
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 코드 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Node.js 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 3. 의존성 설치
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. 테스트 실행
+      - name: Run Tests
+        run: npm test
