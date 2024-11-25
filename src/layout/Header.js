@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function Header({ toggleTheme, isDarkMode }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ function Header({ toggleTheme, isDarkMode }) {
                 <Link to="/search" onClick={toggleMenu}>Search</Link>
                 <Link to="/wishlist" onClick={toggleMenu}>My Wishlist</Link>
                 <Link to="/signin" onClick={toggleMenu}>
-                    <i className="icon">Login</i>
+                    <FontAwesomeIcon icon="fa-solid fa-user" />
                 </Link>
                 <button onClick={toggleTheme} className="theme-toggle">
                     {isDarkMode ? 'LightMode' : 'DarkMode'}
