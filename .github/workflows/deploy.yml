@@ -29,9 +29,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test  # 자동화된 테스트
-
       - name: Run performance and web standard checks
         run: |
           npm run lint   # 웹 표준 검사

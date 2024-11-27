@@ -16,40 +16,42 @@ const isLoggedIn = () => {
 
 // Protected Route 컴포넌트
 const ProtectedRoute = ({ children }) => {
-    return isLoggedIn() ? children : <Navigate to="/signin" replace />;
+    if (!isLoggedIn()) {
+        return <Navigate to="/signin" replace />;
+    }
+    return children;
 };
 
 function App() {
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        return localStorage.getItem('theme') === 'dark';
-    });
+    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [apiKey, setApiKey] = useState(''); // API 키를 상태로 관리
+    const [loggedIn, setLoggedIn] = useState(isLoggedIn()); // 로그인 상태 관리
 
-    const [apiKey, setApiKey] = useState('');
-    const [loggedIn, setLoggedIn] = useState(isLoggedIn());
-
-    // 사용자 정보 및 API 키 가져오기
     useEffect(() => {
         const currentUser = JSON.parse(localStorage.getItem('isLoggedInUser'));
         if (currentUser) {
             const users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find((u) => u.email === currentUser);
             if (user && user.password) {
-                setApiKey(user.password); // ⚠️ 비밀번호를 API 키로 사용하는 것은 권장되지 않습니다.
+                setApiKey(user.password); // 비밀번호를 API 키로 사용
             }
         }
     }, []);
 
-    // 테마 초기화
     useEffect(() => {
-        document.documentElement.setAttribute(
-            'data-theme',
-            isDarkMode ? 'dark' : 'light'
-        );
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    }, [isDarkMode]);
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        setIsDarkMode(currentTheme === 'dark');
+    }, []);
 
-    const toggleTheme = () => setIsDarkMode((prevMode) => !prevMode);
+    const toggleTheme = () => {
+        const newTheme = isDarkMode ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        setIsDarkMode(!isDarkMode);
+    };
 
+    // 로그아웃 함수
     const handleLogout = () => {
         localStorage.removeItem('isLoggedInUser');
         setLoggedIn(false);
@@ -57,20 +59,28 @@ function App() {
     };
 
     return (
-        <Router basename="/movie-wishlist2"> {/* basename 설정 */}
+        <Router>
             <Header
                 toggleTheme={toggleTheme}
                 isDarkMode={isDarkMode}
                 loggedIn={loggedIn}
-                onLogout={handleLogout}
+                onLogout={handleLogout} // 로그아웃 함수 전달
             />
             <Routes>
-                {/* 로그인 페이지 */}
+                {/* 로그인하지 않은 경우 /signin으로 이동 */}
                 <Route path="/signin" element={<SignIn setApiKey={setApiKey} />} />
 
                 {/* 보호된 경로 */}
                 <Route
                     path="/"
+                    element={
+                        <ProtectedRoute>
+                            <Main apiKey={apiKey} />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/movie-wishlist2/"
                     element={
                         <ProtectedRoute>
                             <Main apiKey={apiKey} />
