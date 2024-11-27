@@ -12,7 +12,7 @@ const Banner = ({ movie }) => {
                 <h1>{movie.title}</h1>
                 <p>{description}</p>
                 <div className="banner-buttons">
-                    <button>재생!</button>
+                    <button>재생</button>
                     <button>상세 정보</button>
                 </div>
             </div>
