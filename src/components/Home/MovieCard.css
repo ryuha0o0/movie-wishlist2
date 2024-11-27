@@ -9,7 +9,10 @@
 
 .movie-card img {
     width: 100%;
+    height: auto; /* 비율 유지 */
+    object-fit: cover; /* 이미지가 카드 안에 잘 맞도록 */
 }
+
 
 .movie-card .movie-title {
     font-size: 1rem;

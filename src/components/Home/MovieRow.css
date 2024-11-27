@@ -19,47 +19,67 @@
     display: flex;
     overflow-x: auto;
     padding-left: 20px;
-    gap: 10px; /* 아이템 간 여백 */
+    gap: 10px;
     scroll-snap-type: x mandatory;
     -ms-overflow-style: none; /* IE 및 Edge에서 스크롤 바 숨기기 */
     scrollbar-width: none; /* Firefox에서 스크롤 바 숨기기 */
-    flex-wrap: nowrap; /* 카드가 한 줄에 유지되도록 설정 */
+}
+
+.scroll-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari에서 스크롤 바 숨기기 */
 }
 
 .movie-card-wrapper {
-    flex: 0 0 auto; /* Flex 아이템이 줄바꿈 없이 고정된 크기를 유지 */
-    width: calc(100% / 6); /* 기본 너비를 계산으로 설정 */
-    scroll-snap-align: start; /* 스크롤 스냅 설정 */
+    width: 14%;
+    scroll-snap-align: start;
+    flex: 0 0 auto;
 }
 
+.arrow-button {
+    border: none;
+    color: #333333;
+    font-size: 1.5em;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+
+.arrow-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 반응형 스타일 */
 @media (max-width: 1024px) {
     .movie-card-wrapper {
-        width: calc(100% / 4); /* 카드 크기 조정 */
+        width: 20%;
     }
 }
 
 @media (max-width: 768px) {
     .movie-card-wrapper {
-        width: calc(100% / 3);
+        width: 25%;
     }
 }
 
 @media (max-width: 600px) {
     .movie-card-wrapper {
-        width: calc(100% / 2);
+        width: 33.33%;
     }
 }
 
 @media (max-width: 480px) {
     .movie-card-wrapper {
-        width: calc(100% / 2); /* 모바일 환경에서 여유 공간 확보 */
-        margin-right: 10px; /* 간격 조정 */
+        width: 50%;
     }
 }
 
 @media (max-width: 320px) {
     .movie-card-wrapper {
         width: 100%;
-        margin-right: 0;
     }
 }

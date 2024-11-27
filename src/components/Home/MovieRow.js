@@ -38,7 +38,7 @@ const MovieRow = ({ title, movies, wishlist = [], toggleWishlist, onDoubleClick 
                     onWheel={handleWheel}
                 >
                     {movies.map((movie) => (
-                        <div key={movie.id} className="movie-card-wrapper" >
+                        <div key={movie.id} >
                             <MovieCard
                                 key={movie.id}
                                 movie={movie}
