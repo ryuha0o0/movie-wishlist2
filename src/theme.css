@@ -16,6 +16,10 @@ h2 {
     color: #ffffff;
 }
 
+[data-theme="dark"] h3 {
+    color: #ffffff;
+}
+
 
 button {
     background-color: #333333; /* 어두운 배경 */

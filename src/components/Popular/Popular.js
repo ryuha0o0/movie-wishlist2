@@ -12,7 +12,6 @@ function Popular({ apiKey }) {  // API 키를 props로 받음
     const [wishlist, setWishlist] = useState([]);
 
 
-
     // loadMovies 함수를 useCallback으로 메모이제이션
     const loadMovies = useCallback(async () => {
         setIsLoading(true);
