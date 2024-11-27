@@ -2,9 +2,6 @@ import axios from 'axios';
 
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-module.exports = {
-    BASE_URL,
-};
 
 export const fetchMovies = async (endpoint, apiKey, params = {}) => {
     try {
