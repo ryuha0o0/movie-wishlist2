@@ -66,37 +66,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
-
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1. 코드 체크아웃
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # 2. Node.js 설정
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      # 3. 의존성 설치
-      - name: Install dependencies
-        run: npm ci
-
-  notify:
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1. Slack 알림
-      - name: Notify Slack
-        uses: rtCamp/action-slack-notify@v2
-        with:
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-          message: |
-            🚀 Deployment Workflow:
-            - Branch: ${{ github.ref_name }}
-            - Commit: ${{ github.sha }}
-            - Status: Success
-          color: good
