@@ -11,11 +11,6 @@ h2 {
     color: inherit;
 }
 
-/* 영화 카드 스타일 */
-.movie-card {
-    background-color: transparent; /* 연한 회색 카드 배경 */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
 
 button {
     background-color: #333333; /* 어두운 배경 */
@@ -46,6 +41,35 @@ button:hover {
 .arrow-button:hover {
     background-color: transparent; /* 호버 시에도 배경 없음 */
 }
+
+/* 다크모드 - 전체 텍스트 색상 화이트 */
+[data-theme="dark"] {
+    background-color: #333333; /* 다크 배경 */
+    color: #ffffff; /* 기본 텍스트 색상 */
+}
+
+
+/* 다크모드에서 .movie-title 텍스트 하얗게 */
+[data-theme="dark"] .movie-card .movie-title {
+    color: #ffffff; /* 흰색 텍스트 */
+}
+
+
+/* 특정 재정의 방지 */
+[data-theme="dark"] a:hover {
+    color: #cccccc;
+}
+
+[data-theme="dark"] button {
+    color: #ffffff;
+}
+
+/* Placeholder도 하얗게 변경 */
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: #bbbbbb;
+}
+
 
 /* 다크모드 스타일 */
 [data-theme="dark"] body {
@@ -240,17 +264,4 @@ button:hover {
     padding: 1rem;
 }
 
-.movie-card button {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333333;
-    border: none;
-    padding: 0.5rem 1rem;
-    color: #ffffff;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 10px;
-    font-size: 0.9rem;
-}
+

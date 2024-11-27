@@ -5,18 +5,32 @@ export const getCurrentUser = () => {
     return users.find((user) => user.email === isLoggedInUser) || null;
 };
 
+export const saveToLocalStorage = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+};
+
+export const getFromLocalStorage = (key, defaultValue = null) => {
+    const data = localStorage.getItem(key);
+    try {
+        return data ? JSON.parse(data) : defaultValue;
+    } catch (error) {
+        console.error('Invalid JSON format in localStorage:', key, data);
+        return defaultValue; // JSON 형식이 아닐 경우 기본값 반환
+    }
+};
+
 
 // 로그인 시 사용자 이메일 저장
 export const tryLogin = (email, password) => {
-    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const users = getFromLocalStorage('users', []);
     const user = users.find((u) => u.email === email && u.password === password);
     if (user) {
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('isLoggedInUser', JSON.stringify(user.email)); // 현재 사용자 저장
+        saveToLocalStorage('isLoggedInUser', user.email); // 현재 사용자 이메일 저장
         return user;
     }
     return null;
 };
+
 
 export const tryRegister = (email, password) => {
     const users = JSON.parse(localStorage.getItem('users')) || [];
@@ -33,8 +47,7 @@ export const isLoggedIn = () => {
 };
 
 
-// 로그아웃 함수 추가
 export const logout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('currentUser'); // currentUser 삭제
+    localStorage.removeItem("isLoggedInUser"); // 현재 로그인된 사용자 정보 제거
+    window.location.href = "/signin"; // 로그아웃 후 /signin으로 리디렉션
 };

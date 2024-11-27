@@ -8,6 +8,7 @@ const MainPage = ({ apiKey }) => {
     const [actionMovies, setActionMovies] = useState([]);
     const [comedyMovies, setComedyMovies] = useState([]);
     const [dramaMovies, setDramaMovies] = useState([]);
+    const [documentaryMovies, setDocumentaryMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [wishlist, setWishlist] = useState([]); // 위시리스트 상태 추가
@@ -46,6 +47,7 @@ const MainPage = ({ apiKey }) => {
         loadMoviesByGenre(28, setActionMovies); // Action movies
         loadMoviesByGenre(35, setComedyMovies); // Comedy movies
         loadMoviesByGenre(18, setDramaMovies); // Drama movies
+        loadMoviesByGenre(99, setDocumentaryMovies); // Documentary movies
     }, [loadBannerMovie, loadMoviesByGenre]);
 
     useEffect(() => {
@@ -116,6 +118,12 @@ const MainPage = ({ apiKey }) => {
             <MovieRow
                 title="드라마 영화"
                 movies={dramaMovies}
+                wishlist={wishlist}
+                toggleWishlist={toggleWishlist}
+            />
+            <MovieRow
+                title="다큐멘터리 영화"
+                movies={documentaryMovies}
                 wishlist={wishlist}
                 toggleWishlist={toggleWishlist}
             />

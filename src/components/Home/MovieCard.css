@@ -1,35 +1,43 @@
 .movie-card {
-    position: relative; /* 하트 아이콘을 절대 위치로 배치하기 위해 추가 */
-    width: 150px; /* 카드 크기는 그대로 유지 */
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 150px;
+    margin: 10px;
 }
 
 .movie-card img {
-    width: 100%; /* 이미지를 카드 크기에 맞게 */
-    height: auto; /* 비율 유지 */
-    border-radius: 8px; /* 디자인은 유지 */
+    width: 100%;
+}
+
+.movie-card .movie-title {
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    margin-top: 5px;
+    white-space: normal; /* 텍스트 줄바꿈 허용 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 /* 하트 아이콘 스타일 */
 .wishlist-icon {
     position: absolute;
-    top: 10px; /* 상단 여백 */
-    right: 10px; /* 우측 여백 */
-    font-size: 1.5rem; /* 동일한 크기 */
-    color: #ccc; /* 기본 색상 */
-    cursor: pointer; /* 클릭 가능하도록 */
-    transition: color 0.3s ease, transform 0.3s ease; /* 클릭 효과 */
-    font-family: Arial, sans-serif; /* 하트 모양이 통일되도록 글꼴 지정 */
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .wishlist-icon:hover {
-    color: #ff4d4d; /* 호버 시 빨간색 */
-    transform: scale(1.2); /* 약간 확대 */
+    color: #ff4d4d;
+    transform: scale(1.2);
 }
 
 .wishlist-icon.in-wishlist {
-    color: #ff4d4d; /* 위시리스트에 포함된 경우 빨간색 */
-    font-size: 1.5rem; /* 크기 동일하게 유지 */
-    font-family: Arial, sans-serif; /* 글꼴 동일하게 유지 */
+    color: #ff4d4d;
 }
-

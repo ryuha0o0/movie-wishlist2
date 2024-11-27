@@ -8,13 +8,33 @@ h2 {
     color: #333;
 }
 
-/* 필터 바 스타일 */
+/* 필터 바 기본 스타일 */
 .filters {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-bottom: 1rem;
+    flex-wrap: wrap; /* 요소가 화면 너비에 따라 줄 바꿈 가능 */
 }
+
+/* 태블릿 환경 */
+@media screen and (max-width: 768px) {
+    .filters {
+        flex-direction: column; /* 세로로 정렬 */
+        align-items: center; /* 가운데 정렬 */
+        gap: 15px; /* 간격을 약간 더 넓게 */
+    }
+}
+
+/* 모바일 환경 */
+@media screen and (max-width: 480px) {
+    .filters {
+        flex-direction: column; /* 세로로 정렬 */
+        align-items: center; /* 가운데 정렬 */
+        gap: 20px; /* 모바일에서는 더 넓은 간격 */
+    }
+}
+
 
 /* 필터 드롭다운 스타일 */
 .filters select {

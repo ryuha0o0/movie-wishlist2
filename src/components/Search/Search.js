@@ -186,7 +186,7 @@ function Search({ apiKey }) {
             </div>
 
             <div ref={loaderRef} className="loader">
-                {hasMore ? 'Loading more movies...' : 'No more movies'}
+                {hasMore ? 'Loading...' : 'No more movies'}
             </div>
         </div>
     );

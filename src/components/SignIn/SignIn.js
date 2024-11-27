@@ -44,7 +44,7 @@ function SignIn({ setApiKey }) {
         try {
             const user = tryLogin(email, password);
             if (user) {
-                const apiKey = password; // 예시: 비밀번호를 API 키로 사용
+                const apiKey = user.password; // 예시: 비밀번호를 API 키로 사용
                 setApiKey(apiKey);
                 toast.success('로그인 성공!');
                 if (rememberMe) {

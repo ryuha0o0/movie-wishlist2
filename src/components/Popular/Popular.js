@@ -106,7 +106,7 @@ function Popular({ apiKey }) {  // API 키를 props로 받음
                     Top
                 </button>
             )}
-            {isLoading && <p className="loading">Loading...</p>}
+            {isLoading && <p className="loader">Loading...</p>}
         </div>
     );
 }

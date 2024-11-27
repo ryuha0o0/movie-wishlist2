@@ -1,60 +1,124 @@
 /* Header 기본 스타일 */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: #333;
-    color: #fff;
-}
-
-.logo {
-    font-size: 1.5rem;
-    text-decoration: none;
-    color: inherit;
-}
-
-/* 내비게이션 링크 기본 스타일 */
-.nav-links {
-    display: flex;
-    gap: 1rem;
-    transition: all 0.3s ease;
-}
-
-.nav-links a, .theme-toggle {
-    color: #fff;
-    text-decoration: none;
-}
-
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: #fff;
-    cursor: pointer;
-}
-
-/* 모바일 반응형 스타일 */
+/* 모바일 화면에서만 메뉴가 슬라이드되도록 설정 */
 @media (max-width: 768px) {
-    .nav-links {
-        position: absolute;
-        top: 4rem;
-        right: 1rem;
-        background-color: #333;
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-        border-radius: 5px;
-        display: none;  /* 기본적으로 숨김 */
-    }
-
-    /* 드롭다운 메뉴가 열릴 때 */
-    .nav-links.open {
-        display: flex;  /* 드롭다운 메뉴 보이기 */
-    }
-
+    /* 오른쪽에서 튀어나오는 메뉴 버튼 스타일 */
     .menu-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: transparent;
+        border: none;
+        font-size: 2rem;
+        color: #333;
+        z-index: 1000; /* 메뉴 버튼이 다른 요소들 위에 표시되도록 */
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out; /* 클릭 시 애니메이션 */
+    }
+
+    /* 메뉴가 열렸을 때 버튼의 회전 애니메이션 */
+    .menu-toggle.open {
+        transform: rotate(90deg); /* 버튼이 90도 회전 */
+    }
+
+    /* 네비게이션 메뉴 (모바일) */
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -300px; /* 기본 위치: 화면 오른쪽 밖 */
+        width: 250px; /* 메뉴 너비 */
+        height: 100%;
+        background-color: #333;
+        color: #fff;
+        padding: 2rem;
+        transition: right 0.3s ease-in-out; /* 오른쪽으로 슬라이드하는 애니메이션 */
+        z-index: 999;
+    }
+
+    /* 메뉴가 열렸을 때 (모바일) */
+    .nav-links.open {
+        right: 0; /* 메뉴가 오른쪽에서 화면으로 들어옴 */
+    }
+
+    /* 메뉴 항목 스타일 */
+    .nav-links a {
         display: block;
+        margin: 20px 0;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
+
+    .nav-links a:hover {
+        color: #ff4d4d;
+    }
+}
+
+/* 데스크탑 화면에서 메뉴 버튼 및 네비게이션 유지 */
+@media (min-width: 769px) {
+    .menu-toggle {
+        display: none; /* 데스크탑에서 메뉴 토글 버튼 숨기기 */
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 2rem;
+        background-color: #222; /* 더 어두운 배경 */
+        color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 추가 */
+    }
+
+    .logo {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 2rem; /* 메뉴 항목들 간의 간격 */
+        margin: 0;
+    }
+
+    .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .nav-links a:hover {
+        color: #ff4d4d; /* 메뉴 항목에 호버 효과 */
+    }
+
+    .theme-toggle {
+        background-color: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .theme-toggle:hover {
+        color: #ff4d4d;
+    }
+
+    .logout-button {
+        background: none;
+        border: none;
+        color: inherit;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-left: 1.5rem;
+    }
+
+    .logout-button:hover {
+        color: #ff4d4d; /* 로그아웃 버튼 강조 색상 */
     }
 }

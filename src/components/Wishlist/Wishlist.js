@@ -6,7 +6,6 @@ function Wishlist() {
     const [wishlist, setWishlist] = useState([]);
     const currentUser = getCurrentUser(); // 현재 로그인된 사용자 가져오기
 
-
     useEffect(() => {
         if (currentUser) {
             const wishlistKey = `wishlist_${currentUser.email}`;
@@ -14,7 +13,6 @@ function Wishlist() {
             setWishlist(userWishlist);
         }
     }, [currentUser]);
-
 
     const removeFromWishlist = (movieId) => {
         const updatedWishlist = wishlist.filter((movie) => movie.id !== movieId);

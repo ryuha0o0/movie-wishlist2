@@ -22,6 +22,9 @@ const MovieCard = ({ movie, isInWishlist, toggleWishlist }) => {
                 />
             </div>
             <img src={imageUrl} alt={movie.title} />
+            <div className="movie-title">
+                {movie.title || 'Unknown Title'}
+            </div>
         </div>
     );
 };
