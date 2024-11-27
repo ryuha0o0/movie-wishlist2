@@ -80,14 +80,6 @@ function App() {
                     }
                 />
                 <Route
-                    path="/movie-wishlist2/"
-                    element={
-                        <ProtectedRoute>
-                            <Main apiKey={apiKey} />
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
                     path="/popular"
                     element={
                         <ProtectedRoute>
