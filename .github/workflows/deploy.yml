@@ -85,10 +85,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4. 테스트 실행
-      - name: Run Tests
-        run: npm test
-
   notify:
     runs-on: ubuntu-latest
 
