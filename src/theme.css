@@ -11,6 +11,11 @@ h2 {
     color: inherit;
 }
 
+[data-theme="dark"] h2 {
+    text-align: center;
+    color: #ffffff;
+}
+
 
 button {
     background-color: #333333; /* 어두운 배경 */
